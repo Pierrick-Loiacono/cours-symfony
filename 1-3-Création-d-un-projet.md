@@ -25,6 +25,65 @@ Installer le nécessaire comme cité dans le fichier précédent [1-2-Installati
 
 ## Arborescence d'un projet
 
-|  |  |
-|-----|-|
-| <img src="images/1-3-Arborescence.png" width="450"> |   - **assets/** Regroupe tous vos fichiers CSS / JS / images <br>  - **bin/** : Contient des fichiers exécutables qui vont permettre l'éexecution de commande<br>  - **config/** : Regroupe les fichiers de configration<br>  - **migrations/** : Regroupe les fichiers de migrations. Un fichier de migration contient les requêtes SQL pour mettre notre base de données à jour. Ils sont souvent créés automatiquement<br>  - **public/** : contient les fichiers accessibles publiquement, c’est le point d'entrée de l’application. On peut y mettre des images / css / js. Le fichier principal est index.php, qui est exécuté à chaque requête sur le serveur<br><br>  - **src/**  : Contient tout le code source. Chaque répertoire à l’intérieur a son importance. Il vous est possible d’en créer d'autres selon vos besoins.<br><br>  - **templates/** : Contient les fichiers de templates Twig pour générer l’HTML. On retrouve le fichier de base base.html.twig qui sera étendu à tous les autres<br><br>  - **tests/** : Regroupe tous les tests que vous mettrez en place<br><br>  - **translations/** : Contient les fichiers de traduction<br><br>  - **var/** : Contient les fichiers temporaires générés par Symfony, tel que le cache et les logs<br><br>  - **vendor/** : Contient toutes les dépendances du projet installé via Composer ou par défaut par Symfony<br><br>  - **.env** : Fichier d’environnement pour paramétrage des variables, connexion à la base de données… En général on créera un .env.local<br><br>  - **composer.json**<br>  - **composer.lock**<br>  - **symfony.lock** |
+### `/assets`
+Contient les ressources front-end (CSS, JS, Images...).
+Ces fichiers seront compilés ou copiés vers le dossier **/public**
+
+### `/bin`
+Contient les scripts exécutables du projet : `php bin/console`
+
+### `/config`
+Contient toute la configurion Symfony :
+- **/packages** : configuration de chaque bundle
+- **routes.yaml** : Déclaration des routes (peut être fait dans les contrôleurs directement)
+
+### `/migrations`
+Regroupe les fichiers de migrations. Un fichier de migration contient les requêtes SQL pour mettre notre base de données à jour. Ils sont souvent créés automatiquement
+
+### `/public`
+C'est la racine publique du site, c'est le point d'entrée de l'application grâce au fichier ``index.php`` (front controller). Toutes les requêtes passent par ce fichier
+
+```mermaid
+flowchart LR
+    A[Navigateur] --> C[public/index.php]
+    C --> D[Kernel Symfony]
+    D --> E[Router]
+    E --> F[Controller]
+    F --> G[Services / Doctrine]
+    G --> H[Twig]
+    H --> I[Response]
+    I --> A
+```
+
+### `/src`
+Contient tout le code métier. Chaque répertoire à l’intérieur a son importance. Il vous est possible d’en créer d'autres selon vos besoins.
+
+- **/Controller** : Contient toutes les classes contrôleurs qui traiteront les requêtes
+- **/Entity** Contient les classes d'entités
+- **/Repository**
+- **/Service** : Il faut le créer. Il contiendra les classes métier et services (La gestion des mails par exemple)
+
+### `/templates`
+Contient les fichiers de templates Twig pour générer l’HTML. On retrouve le fichier de base ``base.html.twig`` qui sera étendu à tous les autres
+
+### `/tests`
+Regroupe tous les tests que vous mettrez en place
+
+### `/translations`
+Contient les fichiers de traduction
+
+### `/var`
+Contient les fichiers temporaires générés par Symfony, tel que le cache et les logs
+> **⚠️ Ce dossier ne doit pas être versionné**
+
+### `/vendor`
+Contient toutes les dépendances du projet installé via Composer
+
+
+> **⚠️ Ce dossier ne doit pas être versionné et ne doit jamais être modifié directement**
+
+### `.env`
+Fichier d’environnement pour paramétrage des variables, connexion à la base de données… En général on créera un .env.local
+
+### `composer.json`
+Décrit les dépendances PHP installés
