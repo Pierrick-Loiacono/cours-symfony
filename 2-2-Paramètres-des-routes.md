@@ -49,7 +49,7 @@ Dans le cas où on ne met pas le ``requirements`` et que vous tentez de mettre u
 ## 4. Route dédié à un environnement
 
 ```php
-    #[Route('/devtools', name: 'produit_show', env: 'dev')]
+    #[Route('/devtools', name: 'devtools_show', env: 'dev')]
     public function devtools(): Response
         ...
 ```
@@ -119,11 +119,11 @@ Plutot que de recupérer un entier ou une chaîne, puis de faire une requete à 
 
 ```mermaid
 flowchart LR
-    A[URL /article/10] --> B[Router]
+    A[URL /produit/10] --> B[Router]
     B --> C[id = 10]
     C --> D[Doctrine]
-    D --> E[Article trouvé]
-    E --> F["Controller show (Article article)"]
+    D --> E[Produit trouvé]
+    E --> F["Controller show (Produit $produit)"]
 ```
 
 ---
