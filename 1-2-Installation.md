@@ -2,10 +2,12 @@
 
 ### Contexte
 
-Selon la version de Symfony utilisée, la version de PHP a posséder peut être différente. 
+Selon la version de Symfony utilisée, la version de PHP à posséder peut être différente. 
 - Pour Symfony 7.4 il faut PHP >= 8.2, mais pour Symfony 8.0 il faut PHP >= 8.4.
 - Composer : c'est le gestionnaire de dépendances PHP
 - Symfony CLI : Outil en CLI officiel qui facilite la création et la gestion d'un projet Symfony
+
+!!! - Pour le cours on utilisera Symfony 7.4
 
 ---
 
@@ -29,10 +31,17 @@ Vous pouvez téléchargez la version de PHP souhaité sur le site officiel https
 Vous pouvez aussi tout à fait installer WAMP ou XAMPP, qui est package de tout le nécessaire (PHP, MySQL, Apache), mais qui peut nécessiter d'autres installations
 
 !!! - Oubliez pas de mettre le necessaire dans vos variables d'environnement
+!!! - Pensez aussi à activer certaines extensiosn dans le PHP ini
 
 ---
 
 **Mac**
+
+```bash
+brew update
+brew install php@8.3
+brew link --overwrite --force php@8.3
+```
 
 ---
 
