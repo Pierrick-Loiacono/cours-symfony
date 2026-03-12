@@ -4,6 +4,7 @@
 La connexion à la base de données se fait par le biais d'un fichier de configuration et d'une variable d'environnement. un fichier de configuration indique quelle variable d'environnement utilisé, et celle-ci se configure dans votre fichier d'environnement, par défaut `.env`
 
 ## Fichier `.env`
+Les fichiers d’environnement servent à configurer l’application selon le contexte d’exécution (développement, production, test…). Ils permettent d’éviter de mettre des informations sensibles ou spécifiques à une machine directement dans le code.
 
 Les informations de connexion à la base de données sont stockées dans une variable d'environnement appelée ``DATABASE_URL``. Pour le développement, vous pouvez la trouver et la modifier si besoin dans le fichier ``.env``.
 
@@ -26,7 +27,7 @@ Cette commande permet de créer la base de données
 php bin/console doctrine:database:create
 ```
 
-> Si ça plante, vérifier les informations de votre variable et si tout est bien installé (BDD, extensiosn php)
+> Si ça plante, vérifier les informations de votre variable et si tout est bien installé (BDD, extensions php)
 
 ## Mettre à jour la base de données en rapport avec les entités
 

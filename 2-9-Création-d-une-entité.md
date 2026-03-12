@@ -66,4 +66,28 @@ class Produit
 
 Le repository a aussi été généré dans `src/Repository/ProduitRepository`
 
+## 2. Relation
+
+```php
+#[ORM\Entity]
+class User 
+{
+    // ...
+
+    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'auteur')]
+    private $commandes;
+
+}
+
+#[ORM\Entity]
+class Commande 
+{
+    // ...
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'commandes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $auteur;
+}
+```
+
 
