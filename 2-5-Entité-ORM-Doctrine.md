@@ -100,7 +100,7 @@ Par exemple, Doctrine peut traduire une entité ``Utilisateurs`` en SQL `SELECT 
 
 #### Les composants principaux de Doctrine
 
-**Lees entités** 
+**Les entités** 
 Représente les données de l'app (voir plus haut)
 
 
@@ -114,35 +114,41 @@ $utilisateurs = $utilisateursRepository->findAll();
 L'EntityManager est responsable de la gestion des entités.
 Il permet d'enregistrer, modifier et supprimer les données
 ```php
-$entityManager->persist($article);
+$article = new Article();
+$article->setNom("Lait");
+
+$entityManager->persist($article); 
 $entityManager->flush();
 ```
 `persist()` prépare l'enregistrement
-`flush()` prépare lexécute les requêtes SQL
+`flush()` exécute les requêtes SQL
 
+Doctrine exécura la requête SQL suivante : 
+```sql
+INSERT INTO utilisateur (nom) VALUES ('Pierrick');
+```
 **Les migrations**
 
 Les migrations permettent de synchroniser la base de données avec les entités.
 
 ```bash
-php bin/console make:migration
-php bin/console doctrine:migrations:migrate
+php bin/console make:migration # Crée le fichier de migration
+php bin/console doctrine:migrations:migrate # Execute les fichiers de migration en attente
 ```
-Ces commandes permettent de générer le SQL nécessaire pour modifier la structure de la base
+Ces commandes permettent de générer le SQL nécessaire pour modifier la structure de la base et de l'exécuer. Pensez toujours à vérifier ce qui a été généré
 
-Exemple complet : 
+**Exemple du contenu d'une migration**
 
 ```php
-$utilisateur = new Utilisateurs();
-$utilisateur->setNom("Pierrick");
+public function up(Schema $schema): void
+{
+        $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, PRIMARY KEY (id))');
+}
 
-$entityManager->persist($utilisateur);
-$entityManager->flush();
-```
-
-Doctrine exécura la requête SQL suivante : 
-```sql
-INSERT INTO utilisateur (nom) VALUES ('Pierrick');
+public function down(Schema $schema): void
+{
+        $this->addSql('DROP TABLE user');
+}
 ```
 
 #### Avantages de Doctrine

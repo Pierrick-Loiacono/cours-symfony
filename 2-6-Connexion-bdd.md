@@ -1,7 +1,7 @@
 # Connexion à la base de données
 
 
-La connexion à la base de données se fait par le biais d'un fichier de configuration et d'une variable d'environnement. un fichier de configuration indique quelle variable d'environnement utilisé, et celle-ci se configure dans votre fichier d'environnement, par défaut `.env`
+La connexion à la base de données se fait par le biais d'un fichier de configuration et d'une variable d'environnement. Un fichier d'environnement indique quelles variables d'environnement utiliser, et celles-ci se configure dans votre fichier d'environnement, par défaut `.env`. Mais la bonne pratique est de se servir de celui-ci comme exemple et non comme le fichier d'environnement principal (Voir ``2-8-Fichiers-env.md``)
 
 ## Fichier `.env`
 Les fichiers d’environnement servent à configurer l’application selon le contexte d’exécution (développement, production, test…). Ils permettent d’éviter de mettre des informations sensibles ou spécifiques à une machine directement dans le code.
@@ -18,7 +18,7 @@ DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=8
 - **`127.0.0.1`** : adresse du serveur
 - **`3306`** : port par défaut de MySQL
 - **`nom_base`** : nom de la base de données
-- **`serverVersion`** : version du serveur
+- **`serverVersion`** : version du serveur indique à Doctrine comment générer le SQL compatible
 
 ## Test de la connexion
 
@@ -32,7 +32,7 @@ php bin/console doctrine:database:create
 ## Mettre à jour la base de données en rapport avec les entités
 
 Vous avez 2 possibilités pour mettre à jour votre base de données :
-1. Les migrations
+1. Les migrations (recommandé)
 2. schema:update
 
 ### 1. Les migrations
@@ -55,7 +55,7 @@ php bin/console doctrine:migrations:migrate
 - traçabilité
 - reproductible sur d'autres environnements
 
-### 2. schema:update
+### 2. schema:update (pas recommandé)
 
 Cette commande met directement à jour la base de données à partir des entités
 ```bash

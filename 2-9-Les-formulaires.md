@@ -49,6 +49,7 @@ Chaque `add()` correspond à un champ du formulaire et peut être associé à un
 
 Le cycle de vie d'un formulaire est gérer directement dans le contrôleur.
 
+#### Utilisation d'un formulaire via sa propre classe formulaire
 ```php
 namespace App\Controller;
 
@@ -85,7 +86,47 @@ final class ContactController extends AbstractController
 -  `if ($form->isSubmitted() && $form->isValid())` : Vérifie la soumission du formulaire et si celui-ci est valide
 - `'form' => $form->createView()` : Crée la réprésentation HTML pour Twig
 
-## 3. Affichage dans une vue Twig
+#### Utilisation d'un formulaire via le FormBuilder
+
+**createFormBuilder()** permet de créer un formulaire directement dans le contrôleur
+
+```php
+    $form = $this->createFormBuilder()
+        ->add('prenom', TextType::class)
+        ->add('email', EmailType::class)
+        ->add('message', TextareaType::class)
+        ->add('envoyer', SubmitType::class)
+        ->getForm();
+```
+
+Résumé des fonctions utilisées : 
+- `createForm()` : instancie un formulaire à partir d'une classe dédiée (**FormType**)
+- `createFormBuilder()` : utilise un builder fourni par Symfony (via **AbstractController**) pour créer un formulaire rapidement
+- `add()` : méthode pour ajouter des champs, avec leur type, options...
+- `handleRequest($request)` : lie les données envoyées au formulaire 
+- `isSubmitted()` / `isValid()` : conditions pour vérifier la soumission et validité. Déclencher les **asserts** des entités
+- `getData()` : récupère le contenu des champs sous forme de tableau.
+- `createView()` : prépare l’objet pour la vue Twig.
+
+## 3. Types de champs courants
+
+| Type                    | Description                        |
+|-------------------------|----------------------------------|
+| `TextType`              | Champ texte simple                |
+| `TextareaType`          | Zone de texte (plusieurs lignes)       |
+| `EmailType`             | email (validation automatique HTML5)   |
+| `PasswordType`          | mot de passe               |
+| `UrlType`               | URL               |
+| `ChoiceType`            | Liste déroulante ou cases à cocher |
+| `CheckboxType`          | Case à cocher                    |
+| `DateType`              | Choix de date                    |
+| `DateTimeType`              | Date + heure               |
+| `IntegerType`              | Nombre entier                    |
+| `NumberType`              | Nombre décimal                  |
+| `FileType`              | Upload de fichier                 |
+| `SubmitType`            | Bouton de soumission             |
+
+## 4. Affichage dans une vue Twig
 
 Twig fournit des fonctions spécifiques pour afficher les formulaires générés. L'objectif est d'éviter d'écrire manuellement tout le HTML du formulaire.
 
@@ -148,7 +189,7 @@ Si on avait voulu personnalisé le formulaire, on aurait pu faire comme l'exempl
 ```
 > Par défaut, si vous ne rendez pas un champ, il sera rendu
 
-## 4.  Flash messages
+## 5.  Flash messages
 
 Les flash messages sont des messages temporaires stockés dans la sessions et qui sont affichés à l'utilisateur une seule fois, souvent après une action, tel que la soumission d'un formulaire : `$this->addFlash('success', 'Formulaire soumis avec succès !');`
 
@@ -189,7 +230,7 @@ Pour pas s'embeter avec le css, vous pouvez ajouter aussi les CDN de Bootstrap p
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 ```
 
-## 5. Quelques trucs sur les champs de formulaire
+## 6. Quelques trucs sur les champs de formulaire
 
 Chaque champ de formulaire Symfony peut être configuré avec de nombreuses options permettant de contrôler son affichage, son comportement et sa validation.
 
@@ -224,7 +265,7 @@ Quand on ajoute un champs dans un `FormType`, on peut lui passer un troisième p
     ])
 ```
 
-- **mapped** : Détermine si le champ est lié à l'entité
+- **mapped** : Détermine si le champs est lié à une propriété de l'entité
 - **data** : Permet de définir une valeur par défaut
 - **empty_data** : Valeur utilisée si le champ est vide
 - **disabled** : Désactive le champs
@@ -250,3 +291,62 @@ Il existe une multitude de contrainte, en voici quelques unes :
 - **Regex**
 - **Length**
 - **Type**
+
+## 7. Formulaire lié à une entité
+
+Il est possible d'automatiser la création / modification d'une entité en la liant directement au formulaire. Cette méthode permet de ne pas écrire toutes la récupération des champs du formulaire pour ensuite lier les données via les setters. A la soumission du formulaire, l'entité sera automatiquement remplit / mise à jour
+
+Dans le form : 
+```php
+use App\Entity\User;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class UserType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('email', EmailType::class);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => User::class,
+        ]);
+    }
+}
+```
+
+Dans le contrôleur : 
+```php
+$user = new User();
+
+$form = $this->createForm(UserType::class, $user);
+$form->handleRequest($request);
+...
+```
+
+## 8. Validation des données (assert)
+
+Dans Symfony, les contraintes (appelées asserts) permettent de vérifier que les données d’un objet respectent certaines règles avant d’être utilisées ou enregistrées en base de données. Le composant qui les exécute et **Symfony Validator**
+
+Elles sont généralement définies directement dans les entités et sont automatiquement utilisées lors de la validation des formulaires. Grâce à ces contraintes, on s’assure que les données sont cohérentes, complètes et au bon format (par exemple : un email valide, un champ non vide, une longueur minimale, etc.).
+
+```php
+use Symfony\Component\Validator\Constraints as Assert;
+
+class User
+{
+    #[Assert\NotBlank]
+    #[Assert\Email]
+    private string $email;
+
+    #[Assert\Length(min: 6)]
+    private string $password;
+}
+```

@@ -49,4 +49,4 @@ La variable prise en compte sera ``APP_ENV = prod``
 
 Vous pouvez optimiser vos fichiers d'environnement en créant un seul fichier.
 
-La commande `php bin/console dump-env prod` par exemple, va lire toutes les variables dans les différents fichiers et génére un `.env.local.php`. Ce fichier se la lu à la place de tous les autres
+La commande `php bin/console dump-env prod` par exemple, va lire toutes les variables dans les différents fichiers et génére un `.env.local.php`. Ce fichier sera lu à la place de tous les autres
