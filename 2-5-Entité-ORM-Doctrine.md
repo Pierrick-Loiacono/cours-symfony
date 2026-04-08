@@ -125,7 +125,33 @@ $entityManager->flush();
 
 Doctrine exécura la requête SQL suivante : 
 ```sql
-INSERT INTO utilisateur (nom) VALUES ('Pierrick');
+INSERT INTO article (nom) VALUES ('Lait');
+```
+
+**Les états d'une entité**
+
+Une entité peut être dans plusieurs états
+
+| État      | Description                                                                 | Exemple / Situation                          |
+|-----------|-----------------------------------------------------------------------------|----------------------------------------------|
+| NEW       | Entité créée mais inconnue de Doctrine                                     | `$user = new User();`                        |
+| MANAGED   | Entité suivie par Doctrine (gérée par l’EntityManager)                     | `$em->persist($user);`                       |
+| DETACHED  | Entité non suivie par Doctrine (plus synchronisée automatiquement)         | après `$em->clear();` ou fin de requête      |
+| REMOVED   | Entité marquée pour suppression en base | `$em->remove($user);`
+
+```php
+
+$user = new User(); // NEW
+$entityManager->persist($user); // MANAGED
+
+$entityManager->flush(); // synchronisation avec la BDD
+
+// L'entité est maintenant persistée en base
+
+// Suppression de l'entité (REMOVE)
+$entityManager->remove($user); // REMOVED
+
+$entityManager->flush(); // synchronisation avec la BDD
 ```
 **Les migrations**
 

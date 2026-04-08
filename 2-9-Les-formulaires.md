@@ -82,7 +82,9 @@ final class ContactController extends AbstractController
     }
 }
 ```
-- `Request $request` et `$form = $this->createForm(ContactType::class)` : Permet de détecter si le formulaire a été soumis et récupére les données POST
+- `Request $request` : injection du service Request
+- `handleRequest($request)` : lie les données envoyées au formulaire 
+- `$form = $this->createForm(ContactType::class)` : Permet de détecter si le formulaire a été soumis et récupére les données POST
 -  `if ($form->isSubmitted() && $form->isValid())` : Vérifie la soumission du formulaire et si celui-ci est valide
 - `'form' => $form->createView()` : Crée la réprésentation HTML pour Twig
 
