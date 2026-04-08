@@ -1,6 +1,5 @@
 # Validation des données
 
-
 La validation des données consiste à vérifier que les informations reçues respectent des règles précises avant d’être utilisées ou enregistrées.
 Le but est d’éviter les données incohérentes, incomplètes ou invalides.
 
@@ -8,14 +7,12 @@ Dans Symfony, cette validation repose en général sur le composant Validator et
 
 Exemple d’objectifs de validation :
 
-vérifier qu’un champ n’est pas vide
-vérifier qu’un email a un format correct
-vérifier qu’un nombre est dans une plage autorisée
-vérifier qu’une chaîne a une longueur minimale ou maximale
+- vérifier qu’un champ n’est pas vide
+- vérifier qu’un email a un format correct
+- vérifier qu’un nombre est dans une plage autorisée
+- vérifier qu’une chaîne a une longueur minimale ou maximale
 
-La validation intervient souvent :
-
-après la soumission d’un formulaire
+La validation intervient souvent après la soumission d’un formulaire
 
 ---
 ## 1. Contraintes
@@ -57,16 +54,16 @@ class User
 | **Email**                  | Vérifie le format d’un email                     | ``#[Assert\Email]``                              |
 | **Range**                  | Vérifie qu’une valeur est dans un intervalle     | ``#[Assert\Range(min: 1, max: 100)]``            |
 | **GreaterThan**           | Vérifie que la valeur est strictement supérieure | ``#[Assert\GreaterThan(0)]``                     |
-| **GreaterThanOrEqual**    | Vérifie que la valeur est ≥                      | ``#[Assert\GreaterThanOrEqual(0)]``              |
+| **GreaterThanOrEqual**    | Vérifie que la valeur est >=                      | ``#[Assert\GreaterThanOrEqual(0)]``              |
 | **LessThan**              | Vérifie que la valeur est strictement inférieure | ``#[Assert\LessThan(100)]``                      |
-| **LessThanOrEqual**       | Vérifie que la valeur est ≤                      | ``#[Assert\LessThanOrEqual(20)]``                |
+| **LessThanOrEqual**       | Vérifie que la valeur est <=                     | ``#[Assert\LessThanOrEqual(20)]``                |
 | **Regex**                  | Vérifie un format via une expression régulière   | ``#[Assert\Regex('/^[A-Z]{2}[0-9]{4}$/')]``      |
 | **Choice**                 | Vérifie que la valeur est dans une liste         | ``#[Assert\Choice(['user', 'admin'])]``          |
 | **Date**                   | Vérifie un format de date                        | ``#[Assert\Date]``                               |
 | **DateTime**              | Vérifie un format date + heure                   | ``#[Assert\DateTime]``                           |
 | **Url**                | Vérifie un format d’URL                          | ``#[Assert\Url]``                                |
 | **Positive**            | Vérifie que la valeur est > 0                    | ``#[Assert\Positive]``                           |
-| **PositiveOrZero**        | Vérifie que la valeur est ≥ 0                    | ``#[Assert\PositiveOrZero]``                     |
+| **PositiveOrZero**        | Vérifie que la valeur est >= 0                    | ``#[Assert\PositiveOrZero]``                     |
 
 ## 3. La validation côté formulaire
 
