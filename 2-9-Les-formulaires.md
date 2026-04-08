@@ -30,7 +30,6 @@ class ContactType extends AbstractType
             ->add('email', EmailType::class)
             ->add('message', TextareaType::class)
             ->add('envoyer', SubmitType::class);
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -262,7 +261,7 @@ Quand on ajoute un champs dans un `FormType`, on peut lui passer un troisième p
     ->add('prenom', TextType::class, [
         'mapped' => false,
         'data' => 'Pierrick',
-        'empty_data' => 'Entrez votre prénom',
+        'empty_data' => 'Nom par défaut',
         'disabled' => true
     ])
 ```
