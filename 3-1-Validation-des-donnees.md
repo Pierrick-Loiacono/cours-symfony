@@ -17,7 +17,7 @@ La validation intervient souvent après la soumission d’un formulaire
 ---
 ## 1. Contraintes
 
-On associe des règles à des propriétes directement dans l'entité. On oublie de faire les bons imports avec `use`
+On associe des règles à des propriétes directement dans l'entité. On oublie pas de faire les bons imports avec `use`
 
 ```php
 namespace App\Entity;
