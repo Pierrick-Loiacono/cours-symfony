@@ -148,10 +148,10 @@ security:
                 path: app_logout
                 target: app_login              # Redirection après déconnexion
 
-    access_control:
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/, roles: ROLE_USER }
+    # access_control:
+    #     - { path: ^/login, roles: PUBLIC_ACCESS }
+    #     - { path: ^/admin, roles: ROLE_ADMIN }
+    #     - { path: ^/, roles: ROLE_USER }
 ```
 
 > **Note** : `enable_csrf: true` est fortement recommandé en production pour protéger le formulaire de connexion contre les attaques CSRF.
